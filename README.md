@@ -1,48 +1,68 @@
-# South Australian Electricity Market Analysis
+#  South Australian Electricity Market Analysis
 
-## Overview
-This project analyses 5-minute dispatch and pricing data from the Australian 
-National Electricity Market (NEM) to evaluate the commercial performance of 
-15 generators across five technologies in South Australia over two financial 
-years (FY2022/23 – FY2023/24).
+**Which renewable technology is the strongest investment in South Australia's wholesale electricity market?**
 
-## Dataset
-AEMO NEM 5-minute dispatch data — 210,526 observations (after cleaning)
-Raw file contained 315,632 rows across July 2022 to June 2024.
+Python analysis of **210,526 five-minute AEMO NEM dispatch intervals** (Jul 2022 – Jun 2024) comparing **15 generators across 5 technologies** on capture price, revenue, revenue risk and capacity factor.
 
-## Objectives
-Advise a client considering investment into a renewable energy developer 
-operating in South Australia by identifying which technologies offer the 
-strongest revenue performance, lowest market risk and best long-term 
-investment potential.
+> **Bottom line:** Wind is the strongest renewable investment: the highest renewable capture price, the most stable revenue (lowest CoV, 68.57%) and a capacity factor within AEMO benchmarks. Solar is structurally penalised by price cannibalisation, losing **$10.84M** during negative-price periods.
+
+
+
+## Key Findings
+
+| # | Finding | Evidence |
+|---|---|---|
+| 1 | **Solar cannibalises its own price** | 42.16% of solar dispatch occurred at negative prices, costing **$10.84M** in revenue |
+| 2 | **Wind has the most predictable revenue** | Lowest monthly revenue CoV (**68.57%**) vs solar 107.51% and diesel 154.77% |
+| 3 | **Wind earns the best renewable price** | Capture price **$77.53/MWh** vs solar **$42.48/MWh** |
+| 4 | **Battery profits from timing** | **$397.95/MWh** capture price through peak-price arbitrage |
+| 5 | **Gas faces decline risk** | Highest revenue, but down **40%** from FY23 ($178.9M) to FY24 ($107.9M) |
+
+---
+
+## 📊 Visual Highlights
+
+### 1. Solar price cannibalisation
+Midday prices collapse below $0 exactly when solar output peaks, so solar sells most of its energy at the lowest prices of the day.
+
+![Solar price cannibalisation](Images/solar_cannibalisation.png)
+
+### 2. Negative price exposure
+Solar has the largest share of dispatch (42.2%) and revenue loss (-$10.84M) during negative-price periods.
+
+![Negative price exposure by technology](Images/negative_price_exposure.png)
+
+### 3. Revenue risk by technology
+Wind has the lowest monthly revenue variability, which means the most predictable, financeable cash flows.
+
+![Revenue risk by technology (monthly CoV)](Images/revenue_risk_cov.png)
+
+### 4. Capture price vs market benchmarks
+Dispatchable technologies (diesel, battery, gas) earn above market average; wind earns close to it; solar falls furthest below.
+
+![Capture price vs market benchmarks](Images/captureprice_vs_market.png)
+
+
+
+## Recommendations
+- **Prioritise wind** as the core renewable investment for stable, predictable returns
+- **Pair solar with battery storage** to shift output away from low or negative midday prices
+- **Treat gas and diesel cautiously** given falling wholesale prices and long-term stranded-asset risk
+
+
 
 ## Methodology
-- Dispatch-weighted capture price analysis (DWP = Σ(Price × Dispatch) / Σ(Dispatch))
-- Revenue variability measurement using Coefficient of Variation (CoV)
-- Capacity factor calculation benchmarked against AEMO industry ranges
-- Intra-daily dispatch and price pattern analysis
-- Negative price exposure quantification by technology
-
-## Key Results
-- Solar recorded $10.84M in revenue losses from price cannibalisation
-- Wind achieved the lowest revenue volatility (CoV 68.57%) among all technologies
-- Wind capacity factor: 27.38% — within AEMO benchmark range of 25–40%
-- Gas generated the highest absolute revenue but declined 40% from FY23 to FY24
-
-## Key Insights
-- Wind is the strongest renewable investment — highest renewable capture price, 
-  lowest revenue risk and most predictable cash flows
-- Solar cannibalisation is a structural problem that worsens as solar penetration 
-  increases; 42.16% of solar dispatch occurred during negative-price periods
-- Battery storage achieved a high capture price ($397.95/MWh) through peak-price 
-  arbitrage and works best as a complement to renewable generation
-- Gas and diesel face long-term stranded asset risk from rising renewable 
-  penetration and carbon obligations
+- **Data cleaning:** reduced 315,632 raw rows to 210,526 valid intervals by removing blank and duplicate rows and rows without timestamps; filled missing dispatch with 0 (no dispatch = no output)
+- **Capture price (DWP):** `Σ(Price × Dispatch) / Σ(Dispatch)`, benchmarked against time-weighted ($100.88/MWh) and volume-weighted ($128.79/MWh) market averages
+- **Revenue:** `Price × Dispatch (MW) × 5/60`. Converts each 5-minute MW reading to MWh
+- **Revenue risk:** monthly coefficient of variation (CoV = std / mean)
+- **Capacity factor:** benchmarked against AEMO industry ranges (wind: 27.38%, within the 25–40% benchmark)
+- **Intra-daily and negative-price analysis** by technology
 
 ## Tools
-Python | pandas | NumPy | Matplotlib | Seaborn | SciPy | Jupyter Notebook
+Python · pandas · NumPy · Matplotlib · Seaborn · SciPy · Jupyter Notebook
 
-## Disclaimer
-Developed as part of a Master of Business Analytics program at Macquarie 
-University. Raw dataset not included due to file size and data source 
-restrictions. Data sourced from AEMO's publicly available NEM dispatch records.
+## Data
+AEMO National Electricity Market (NEM) 5-minute dispatch and price data for South Australia (SA1), FY2022/23 – FY2023/24. Installed capacity from AEMO Generation Information and OpenElectricity. 
+
+*Academic project, Master of Business Analytics (BUSA8031 Business Analytics Project), Macquarie University, 2026.*
