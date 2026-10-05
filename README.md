@@ -10,7 +10,7 @@ Python analysis of **210,526 five-minute AEMO NEM dispatch intervals** (Jul 2022
 
 ## Key Findings
 
-| # | Finding | Evidence |
+|  | Finding | Evidence |
 |---|---|---|
 | 1 | **Solar cannibalises its own price** | 42.16% of solar dispatch occurred at negative prices, costing **$10.84M** in revenue |
 | 2 | **Wind has the most predictable revenue** | Lowest monthly revenue CoV (**68.57%**) vs solar 107.51% and diesel 154.77% |
